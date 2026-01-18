@@ -1,33 +1,54 @@
 package com.company;
 
-import com.company.controllers.UserController;
-import com.company.data.PostgresDB;
-import com.company.data.interfaces.IDB;
-import com.company.repositories.UserRepository;
-import com.company.repositories.interfaces.IUserRepository;
+import com.company.controllers.LibraryControllerImpl;
+
+import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
+        LibraryControllerImpl controller = new LibraryControllerImpl();
+        Scanner sc = new Scanner(System.in);
 
-        IDB db = new PostgresDB(
-                "jdbc:postgresql://localhost:5432",
-                "postgres",
-                "0000",
-                "librarydb"
-        );
+        while (true) {
+            System.out.println("\n1. Show books");
+            System.out.println("2. Borrow book");
+            System.out.println("3. Return book");
+            System.out.println("4. Search by title");
+            System.out.println("0. Exit");
 
-        IUserRepository repo = new UserRepository(db);
-        UserController controller = new UserController(repo);
+            int choice = sc.nextInt();
+            sc.nextLine();
 
-        System.out.println(
-                controller.createUser(
-                        "Aruzhan",
-                        "Kenzhebulatova",
-                        "female"
-                )
-        );
+            if (choice == 0) break;
 
-        System.out.println(controller.getUser(1));
-        System.out.println(controller.getAllUsers());
+            if (choice == 1) {
+                controller.showBooks();
+            }
+
+            if (choice == 2) {
+                System.out.print("Enter book ID: ");
+                int id = sc.nextInt();
+                sc.nextLine();
+
+                System.out.print("Enter your name: ");
+                String name = sc.nextLine();
+
+                controller.borrowBook(id, name);
+            }
+
+            if (choice == 3) {
+                System.out.print("Enter book ID: ");
+                int id = sc.nextInt();
+                controller.returnBook(id);
+            }
+
+            if (choice == 4) {
+                System.out.print("Enter title: ");
+                String title = sc.nextLine();
+                controller.search(title);
+            }
+        }
     }
 }
+
