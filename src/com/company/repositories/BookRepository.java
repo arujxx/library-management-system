@@ -17,7 +17,7 @@ public class BookRepository {
         this.db = db;
     }
 
-    // получить все книги
+
     public List<Book> getAllBooks() {
         List<Book> books = new ArrayList<>();
         String sql = "SELECT id, title, author, available_copies FROM books";
@@ -43,7 +43,7 @@ public class BookRepository {
         return books;
     }
 
-    // обновить количество доступных копий
+
     public boolean updateAvailableCopies(int bookId, int newCount) {
         String sql = "UPDATE books SET available_copies = ? WHERE id = ?";
 
