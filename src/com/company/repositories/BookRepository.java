@@ -17,23 +17,26 @@ public class BookRepository {
         this.db = db;
     }
 
-
     public List<Book> getAllBooks() {
         List<Book> books = new ArrayList<>();
-        String sql = "SELECT id, title, author, available_copies FROM books";
+
+        String sql =
+                "SELECT b.id, b.title, b.author, c.name AS category, b.available_copies " +
+                        "FROM books b " +
+                        "JOIN categories c ON b.category_id = c.id";
 
         try (Connection con = db.getConnection();
-             PreparedStatement st = con.prepareStatement(sql);
-             ResultSet rs = st.executeQuery()) {
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                Book book = new Book(
+                books.add(new Book(
                         rs.getInt("id"),
                         rs.getString("title"),
                         rs.getString("author"),
+                        rs.getString("category"),
                         rs.getInt("available_copies")
-                );
-                books.add(book);
+                ));
             }
 
         } catch (Exception e) {
@@ -43,20 +46,18 @@ public class BookRepository {
         return books;
     }
 
-
-    public boolean updateAvailableCopies(int bookId, int newCount) {
+    public void updateAvailableCopies(int bookId, int newCount) {
         String sql = "UPDATE books SET available_copies = ? WHERE id = ?";
 
         try (Connection con = db.getConnection();
-             PreparedStatement st = con.prepareStatement(sql)) {
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
-            st.setInt(1, newCount);
-            st.setInt(2, bookId);
-            return st.executeUpdate() > 0;
+            ps.setInt(1, newCount);
+            ps.setInt(2, bookId);
+            ps.executeUpdate();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
     }
 }
