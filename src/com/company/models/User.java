@@ -3,47 +3,37 @@ package com.company.models;
 public class User {
     private int id;
     private String name;
-    private String surname;
-    private String gender;
+    private String email;
 
     public User() {}
 
-    public User(String name, String surname, String gender) {
-        this.name = name;
-        this.surname = surname;
-        this.gender = gender;
-    }
-
-    public User(int id, String name, String surname, String gender) {
+    public User(int id, String name, String email) {
         this.id = id;
         this.name = name;
-        this.surname = surname;
-        this.gender = gender;
+        this.email = email;
     }
 
     public int getId() {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
-    public String getSurname() {
-        return surname;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getGender() {
-        return gender;
+    public String getEmail() {
+        return email;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", gender='" + gender + '\'' +
-                '}';
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
