@@ -1,33 +1,41 @@
 package com.company;
 
-import com.company.controllers.UserController;
-import com.company.data.PostgresDB;
-import com.company.data.interfaces.IDB;
-import com.company.repositories.UserRepository;
-import com.company.repositories.interfaces.IUserRepository;
+import com.company.controllers.LibraryControllerImpl;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
-        IDB db = new PostgresDB(
-                "jdbc:postgresql://localhost:5432",
-                "postgres",
-                "0000",
-                "librarydb"
-        );
+        LibraryControllerImpl controller = new LibraryControllerImpl();
+        Scanner sc = new Scanner(System.in);
 
-        IUserRepository repo = new UserRepository(db);
-        UserController controller = new UserController(repo);
+        while (true) {
+            System.out.println("\n1. Borrow book");
+            System.out.println("2. Return book");
+            System.out.println("3. Check overdue");
+            System.out.println("0. Exit");
 
-        System.out.println(
-                controller.createUser(
-                        "Aruzhan",
-                        "Kenzhebulatova",
-                        "female"
-                )
-        );
+            int choice = sc.nextInt();
+            if (choice == 0) break;
 
-        System.out.println(controller.getUser(1));
-        System.out.println(controller.getAllUsers());
+            System.out.print("User ID: ");
+            int userId = sc.nextInt();
+
+            if (choice == 1) {
+                System.out.print("Book ID: ");
+                int bookId = sc.nextInt();
+                controller.borrowBook(userId, bookId);
+            }
+
+            if (choice == 2) {
+                System.out.print("Book ID: ");
+                int bookId = sc.nextInt();
+                controller.returnBook(userId, bookId);
+            }
+
+            if (choice == 3) {
+                controller.checkOverdue(userId);
+            }
+        }
     }
 }
