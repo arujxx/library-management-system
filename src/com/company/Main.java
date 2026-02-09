@@ -1,9 +1,9 @@
 package com.company;
 
-public class Main {
+import com.company.MyApplication;
 
+public class Main {
     public static void main(String[] args) {
-        MyApplication app = new MyApplication();
-        app.start();
+        new MyApplication().run();
     }
 }

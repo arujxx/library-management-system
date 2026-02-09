@@ -2,15 +2,12 @@ package com.company.repositories;
 
 import com.company.data.PostgresDB;
 
-import com.company.repositories.ILibraryRepository;
-
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class LibraryRepository implements ILibraryRepository {
+public class LibraryRepository {
 
     private final Connection connection;
 
@@ -29,16 +26,15 @@ public class LibraryRepository implements ILibraryRepository {
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                System.out.printf(
-                        "%-3d | %-35s | %-20s | %-15s | %d/%d%n",
-                        rs.getInt("id"),
-                        rs.getString("title"),
-                        rs.getString("author"),
-                        rs.getString("category"),
-                        rs.getInt("available_copies"),
-                        rs.getInt("total_copies")
+                System.out.println(
+                        rs.getInt("id") + " | " +
+                                rs.getString("title") + " | " +
+                                rs.getString("author") + " | " +
+                                rs.getString("category") + " | " +
+                                "Available: " +
+                                rs.getInt("available_copies") + "/" +
+                                rs.getInt("total_copies")
                 );
-
             }
 
         } catch (SQLException e) {

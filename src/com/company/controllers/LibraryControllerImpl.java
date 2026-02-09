@@ -1,14 +1,19 @@
 package com.company.controllers;
 
-import com.company.repositories.ILibraryRepository;
+import com.company.data.PostgresDB;
+import com.company.repositories.LibraryRepository;
 
 public class LibraryControllerImpl {
 
-    private final ILibraryRepository repo;
-
-    public LibraryControllerImpl(ILibraryRepository repo) {
-        this.repo = repo;
-    }
+    private final LibraryRepository repo =
+            new LibraryRepository(
+                    new PostgresDB(
+                            "localhost",
+                            "postgres",
+                            "0000",
+                            "librarydb"
+                    )
+            );
 
     public void showBooks() {
         repo.showBooks();

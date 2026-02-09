@@ -60,13 +60,22 @@ public class BookRepository {
             e.printStackTrace();
         }
     }
+    public void addBook(String title, String author, int categoryId) {
+        String sql =
+                "INSERT INTO books (title, author, category_id, total_copies, available_copies) " +
+                        "VALUES (?, ?, ?, 1, 1)";
 
-    public List<Book> getAllBooksSortedByTitle() {
-        List<Book> books = getAllBooks();
+        try (Connection con = db.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
-        books.sort((a, b) -> a.getTitle().compareToIgnoreCase(b.getTitle()));
+            ps.setString(1, title);
+            ps.setString(2, author);
+            ps.setInt(3, categoryId);
+            ps.executeUpdate();
 
-        return books;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
